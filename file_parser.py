@@ -44,8 +44,10 @@ async def scan_item(folder: Path, item: Path) -> None:
         if item.name not in ('ARCHIVES', 'VIDEO', 'AUDIO', 'DOCUMENTS', 'IMAGES', 'PROGRAMS', 'OTHERS'):
             FOLDERS.append(item)
             #  Скануємо цю вкладену теку – рекурсія
-            for subitem in item.iterdir():
-                await scan_item(item, subitem)
+            subtasks = [scan_item(item, subfolder) for subfolder in item.iterdir()]
+            await asyncio.gather(*subtasks)
+            # for subfolder in item.iterdir():
+            #     await scan_item(item, subfolder)
         #  Перейти до наступного елемента у сканованій теці
         return
 
