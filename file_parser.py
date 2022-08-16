@@ -67,8 +67,8 @@ async def scan_item(folder: Path, item: Path) -> None:
 
 async def handle_file(filename: Path, target_folder: Path):
     target_folder.mkdir(exist_ok=True, parents=True)
-    filename.replace(target_folder / (normalize(filename.stem) + filename.suffix))
-
+    # filename.replace(target_folder / (normalize(filename.stem) + filename.suffix))
+    await aioshutil.move(filename, target_folder / (normalize(filename.stem) + filename.suffix))
 
 async def handle_archive(filename: Path, target_folder: Path):
     # Створюємо теку для архівів
